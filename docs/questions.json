@@ -1,0 +1,421 @@
+{
+  "version": 1,
+  "questions": [
+    {
+      "id": "Q1",
+      "prompt": "Refer to the image below.\n A pediatrician must query an immunization clinical decision support system to determine which vaccinations a child patient is due for next based on patient's age and gender. The support system restricts the received patient's information to eliminate all unnecessary Personal Identifying Information data elements. \n Which Patient profile defines this restriction?",
+      "stem": {
+        "type": "tsv",
+        "content": [
+          "Element Name\tData Type\tProfile A\tProfile B\tProfile C\tProfile D",
+          "Patient\tDomainResource\t\t\t\t",
+          "identifier\tIdentifier\t0..*\t0..0\t0..0\t0..*",
+          "active\tboolean\t0..1\t0..0\t0..0\t0..*",
+          "name\tHumanName\t0..*\t0..0\t0..1\t0..*",
+          "telecom\tContactPoint\t0..*\t0..0\t0..0\t0..*",
+          "gender\tcode\t1..1\t1..1\t1..1\t1..1",
+          "birthDate\tdate\t1..1\t1..1\t1..1\t1..1",
+          "deceased[x]\tboolean | dateTime\t0..1\t0..0\t0..0\t0..*",
+          "address\tAddress\t0..*\t0..0\t0..0\t0..*",
+          "maritalStatus\tCodeableConcept\t0..1\t0..0\t0..0\t0..*",
+          "multipleBirth[x]\tboolean | integer\t0..1\t0..0\t0..0\t0..*",
+          "photo\tAttachment\t0..*\t0..0\t0..0\t0..*",
+          "contact\tBackboneElement\t0..*\t0..0\t0..0\t0..*",
+          "communication\tBackboneElement\t0..*\t0..0\t0..0\t0..*",
+          "generalPractitioner\tReference(Practitioner)\t0..*\t0..0\t0..0\t0..*",
+          "managingOrganization\tReference(Organization)\t0..1\t0..0\t0..0\t0..*",
+          "link\tBackboneElement\t0..*\t0..0\t0..0\t0..*"
+        ]
+      },
+      "options": {
+        "A": "Profile A",
+        "B": "Profile B",
+        "C": "Profile C",
+        "D": "Profile D"
+      },
+      "answer": "B",
+      "explanation": "El Perfil B define la restricción en la información del paciente, ya que es el único que limita los datos personales identificables a solo género y fecha de nacimiento, que son los requeridos por el sistema de soporte de decisiones clínicas.\n\nProfile B defines the restriction on the patient's information."
+    },
+    {
+      "id": "Q2",
+      "prompt": "A client is posting data to the server. The server successfully receives the data, but the FHIR data payload has a syntax error.",
+      "stem": {
+        "type": "text",
+        "content": "Where should the client look to see what the server thinks is the data problem?"
+      },
+      "options": {
+        "A": "The HTTP headers",
+        "B": "A resource in the server response",
+        "C": "The HTTP response code",
+        "D": "The server audit trails"
+      },
+      "answer": "B",
+      "explanation": "El servidor incluirá detalles sobre el error de sintaxis en el recurso de respuesta, generalmente un `OperationOutcome`, para que el cliente sepa qué corregir.\n\nThe server will include details about the syntax error in the response resource."
+    },
+    {
+      "id": "Q3",
+      "prompt": "A research group in a university requests access to patient data in the EHR of the affiliated University Healthcare System for an observational study.",
+      "stem": {
+        "type": "text",
+        "content": "Which security label codes should be used in the request to represent the reason for accessing patient data?"
+      },
+      "options": {
+        "A": "PurposeOfUse (http://terminology.hl7.org/CodeSystem/v3-PurposeOfUse)",
+        "B": "StudyType (http://terminology.hl7.org/CodeSystem/v3-ResearchStudy)",
+        "C": "ResearchMode (http://terminology.hl7.org/CodeSystem/v3-ResearchMode)",
+        "D": "AccessMode (http://terminology.hl7.org/CodeSystem/v3-AccessMode)"
+      },
+      "answer": "A",
+      "explanation": "`PurposeOfUse` se utiliza para representar la razón para acceder a los datos del paciente. En este caso, el valor `RESEARCH` indicaría que el acceso es para fines de investigación.\n\nPurposeOfUse is used to represent the reason for accessing patient data."
+    },
+    {
+      "id": "Q4",
+      "prompt": "An application needs to transmit an ultrasound image with the following data format:\n\nFilename extension: .dcm\nInternet media type: Application/dicom\nUniform Type Identifier (UTI): org.nema.dicom",
+      "stem": {
+        "type": "text",
+        "content": "Which resource should be used?"
+      },
+      "options": {
+        "A": "DiagnosticReport",
+        "B": "Specimen",
+        "C": "Observation",
+        "D": "Binary"
+      },
+      "answer": "D",
+      "explanation": "El recurso `Binary` se utiliza para almacenar y transmitir datos no estructurados como imágenes, documentos PDF o, en este caso, un archivo DICOM.\n\nThe Binary resource is used to store and transmit unstructured data such as images."
+    },
+    {
+      "id": "Q5",
+      "prompt": "A client posts an Observation instance to a server's $validate endpoint to determine the Observation's conformance to the base FHIR specification. The validation response payload contains the following ERROR message:",
+      "stem": {
+        "type": "text",
+        "content": " \"per-1: Rule 'If present, start SHALL have a lower value than end' Failed\". Which validation aspect does this error message represent?"
+      },
+      "options": {
+        "A": "Structure",
+        "B": "Cardinality",
+        "C": "Invariant",
+        "D": "Value Domain"
+      },
+      "answer": "C",
+      "explanation": "El mensaje de error representa una regla de validación de invariante fallida. Las invariantes son reglas de negocio definidas en la especificación de FHIR que deben cumplirse, como que una fecha de inicio debe ser anterior a una fecha de fin.\n\nThe error message represents a failed invariant validation rule, because the 'start' value is not lower than the 'end' value and the rule requires the 'start' value to be lower than the 'end' value."
+    },
+    {
+      "id": "Q6",
+      "prompt": "A system needs to exchange information about a patient's next of kin and who to contact in an emergency. The actual patient is represented using the FHIR Patient resource.",
+      "stem": {
+        "type": "text",
+        "content": "Which resource is used for these other contacts?"
+      },
+      "options": {
+        "A": "FamilyMemberHistory ",
+        "B": "Group ",
+        "C": "RelatedPerson ",
+        "D": "ContactPerson"
+      },
+      "answer": "C",
+      "explanation": "El recurso `RelatedPerson` se utiliza para representar a individuos que están relacionados con el paciente y pueden ser contactados en una emergencia, como el pariente más cercano.\n\nThe RelatedPerson resource is used to represent individuals who are related to the patient and can be contacted in an emergency."
+    },
+    {
+      "id": "Q7",
+      "prompt": "A provider portal must implement functionality that presents a provider (Practitioner/prac-1234) with their patient's (Patient/pat-abcd) past, present, and future prescribed medications using the query capabilities of an EHR server.This query must be performed with a single request to the server.",
+      "stem": {
+        "type": "text",
+        "content": "Which query will the portal implement to meet these requirements?"
+      },
+      "options": {
+        "A": "Instance Level history on the Patient/pat-abcd instance ",
+        "B": "Type level search on the Patient resource type ",
+        "C": "Type level history on the MedicationRequest resource type ",
+        "D": "Type level search on the MedicationRequest resource type"
+      },
+      "answer": "D",
+      "explanation": "El portal implementará una búsqueda a nivel de tipo en el recurso `MedicationRequest` para recuperar todos los medicamentos recetados para el paciente especificado. Esto permite filtrar por paciente y obtener un historial completo en una sola consulta.\n\nThe portal will implement a type level search on the MedicationRequest resource type to retrieve all prescribed medications for the specified patient."
+    },
+    {
+      "id": "Q8",
+      "prompt": "A client posts an Observation instance to a server's $validate endpoint to determine the Observation's conformance to the base FHIR specification. The client receives the following validation response:\n\nResponse Code - 404 (Not Found)\nResponse Payload – Empty",
+      "stem": {
+        "type": "text",
+        "content": "Which option explains this response?"
+      },
+      "options": {
+        "A": "The FHIR server did not find the Observation instance in its data repository.",
+        "B": "The FHIR server does not support validation of the Observation resource type.",
+        "C": "The FHIR server does not support the $validate operation.",
+        "D": "The FHIR server is too busy to respond."
+      },
+      "answer": "C",
+      "explanation": "Un código de respuesta `404 (Not Found)` para una operación como `$validate` generalmente significa que el servidor no reconoce o no ha implementado esa operación específica en el endpoint solicitado.\n\nThe FHIR server does not support the $validate operation."
+    },
+    {
+      "id": "Q9",
+      "prompt": "Refer to the image. A client application needs to search the Patient resource by the patient's city. Which search parameter should be used?",
+      "stem": {
+        "type": "tsv",
+                "content": [
+          "Name\tType\tDescription\tExpression",
+          "active\ttoken\tWhether the patient record is active\tPatient.active",
+          "address\tstring\tA server defined search that may match any of the string fields in the Address, including line, city, district, state, country, postalCode, and/or text\tPatient.address",
+          "address-city\tstring\tA city specified in an address\tPatient.address.city",
+          "address-country\tstring\tA country specified in an address\tPatient.address.country",
+          "address-postalcode\tstring\tA postalCode specified in an address\tPatient.address.postalCode",
+          "address-state\tstring\tA state specified in an address\tPatient.address.state",
+          "address-use\ttoken\tA use code specified in an address\tPatient.address.use",
+          "birthdate\tdate\tThe patient's date of birth\tPatient.birthDate",
+          "death-date\tdate\tThe date of death has been provided and satisfies this search value\t(Patient.deceased.ofType(dateTime))",
+          "deceased\ttoken\tThis patient has been marked as deceased, or has a death date entered\tPatient.deceased.exists() and Patient.deceased != false",
+          "email\ttoken\tA value in an email contact\tPatient.telecom.where(system='email')"
+        ]
+      },
+      "options": {
+        "A": "address[city]",
+        "B": "Patient.address.city",
+        "C": "address-city",
+        "D": "city"
+      },
+      "answer": "C",
+      "explanation": "El parámetro de búsqueda `address-city` está diseñado específicamente para buscar pacientes por la ciudad en su dirección, como se define en la especificación FHIR para el recurso `Patient`.\n\nThe 'address-city' search parameter is specifically designed to search for patients by the city in their address."
+    },
+    {
+      "id": "Q10",
+      "prompt": "Refer to the image.The definition of the Must Support element by this IG is - sender shall populate the element if data is present, else can leave it empty.\n Which option is correct understanding by an implementer for the gender and birthDate elements?",
+      "stem": {
+        "type": "tsv",
+                "content": [
+          "Name\tFlags\tCard.\tType\tDescription & Constraints",
+          "Patient\t0..*\tPatient\tInformation about an individual or animal receiving health care services",
+          "∟ gender\tS\t1..1\tcode\t(USCDI) male",
+          "∟ birthDate\tS\t0..1\tdate\t(USCDI) The date of birth for the individual"
+        ]
+      },
+      "options": {
+        "A": "Both gender and birthDate elements are mandatory.",
+        "B": "Gender element can be left empty if sender has no data available.",
+        "C": "birthDate element must be populated if sender has the data available.",
+        "D": "birthDate element can be left empty even if sender has the data available."
+      },
+      "answer": "C",
+      "explanation": "El elemento `birthDate` tiene la bandera 'Must Support' (S) y una cardinalidad de 0..1. Según la definición del IG, esto significa que si el remitente tiene el dato disponible, debe poblarlo. No es obligatorio si el dato no existe.\n\nThe birthDate element must be populated if the sender has the data available."
+    },
+    {
+      "id": "Q11",
+      "prompt": "Request URL – GET http://healthycare.com/fhir/Patient/1234/$validate?profile=http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient\n\nThe client receives the following response from the server:\n\nResponse Code - 400 (Bad Request)\nResponse Body - OperationOutcome instance with multiple error severity issues",
+      "stem": {
+        "type": "text",
+                "content": "Which option explains this response?"
+      },
+      "options": {
+        "A": "The Patient instance could not be successfully validated by the server.",
+        "B": "The Patient instance is not valid against the US Core Patient profile.",
+        "C": "The Patient instance is not the expected resource type.",
+        "D": "The server did not receive the correct $validate parameters."
+      },
+      "answer": "D",
+      "explanation": "El servidor no recibió los parámetros correctos para `$validate`. La URL usa `?profile=` que es para una búsqueda normal, pero la operación `$validate` espera que el perfil se pase como un parámetro dentro de un recurso `Parameters` en el cuerpo de una solicitud POST, o con un parámetro específico de la operación como `profile` en una solicitud GET, pero el formato de la URL es incorrecto para una operación a nivel de instancia.\n\nThe server did not receive the correct $validate parameters."
+    },
+    {
+      "id": "Q12",
+      "prompt": "An admission system needs to represent the patient's first name is Peter, second name is James, and the last name is Everyman. According to the HumanName data type and its definition in the image, which option is the correct structure?",
+      "options_format": "json",
+      "stem": {
+        "type": "tsv",
+                "content": [
+                  "Elemento\tCardinalidad\tTipo\tDescripción y Restricciones",
+                  "use\t0..1\tcode\tDefine el contexto del nombre: usual, official, temp, nickname, anonymous, old, maiden.",
+                  "text\t0..1\tstring\tRepresentación textual del nombre completo.",
+                  "family\t0..1\tstring\tApellido (frecuentemente llamado 'Surname').",
+                  "given\t0..*\tstring\tNombres de pila (no siempre es el 'primero'). Incluye segundos nombres.",
+                  "prefix\t0..*\tstring\tTítulos que preceden al nombre (ej. Dr., Mr.).",
+                  "suffix\t0..*\tstring\tTítulos que siguen al nombre (ej. Jr., PhD).",
+                  "period\t0..1\tPeriod\tPeriodo de tiempo en el que el nombre estuvo o está en uso."
+                ]
+      },
+      "options": {
+        "A": { "name": { "family": ["Everyman", "Smith"], "given": ["Peter", "James"] } },
+        "B": { "name": [ { "use": "official", "family": "Everyman", "given": ["Peter", "James"] }, { "use": "usual", "given": "Jim" } ] },
+        "C": { "name": { "use": "official", "family": "Everyman", "given": ["Peter", "James"] } },
+        "D": { "name": { "use": "official", "family": "Everyman", "given": "Peter", "given": "James"  }}
+      },
+      "answer": "C",
+      "explanation": "La estructura correcta para `Patient.name` es un array de objetos `HumanName`, ya que un paciente puede tener múltiples nombres (oficial, usual, etc.). La opción C muestra correctamente una lista con un nombre oficial y uno usual. La opción C es incorrecta porque `name` debe ser un array. La opción A es incorrecta porque `family` tiene una cardinalidad de 0..1 (no puede ser un array). La opción D no es un JSON válido por la clave `given` duplicada.\n\nThe correct structure for Patient.name is an array of HumanName objects. Option B correctly shows a list containing an official name and a usual name, which is a valid use case. Option C is incorrect because 'name' should be an array of objects, not a single object. Option A is incorrect because 'family' has a cardinality of 0..1, so it cannot be an array. Option D is not valid JSON because of the duplicate 'given' key."
+    },
+    {
+      "id": "Q13",
+      "prompt": "A client sends a Patient update interaction to modify the patient's demographic data on a server. The client receives the following response from the server:\n\nResponse Code - 501 (Not Implemented)\nResponse Body – Empty",
+      "stem": {
+        "type": "text",
+                "content": "Which option explains the server response?"
+      },
+      "options": {
+        "A": "The server does not support the HTTP PUT method for the FHIR update operation.",
+        "B": "The server was too busy to respond and the client must resend the FHIR update operation.",
+        "C": "The server does not contain the Patient instance to be updated.",
+        "D": "The server rejected the Patient instance as invalid FHIR content."
+      },
+      "answer": "A",
+      "explanation": "Un código de respuesta `501 (Not Implemented)` indica que el servidor no soporta la funcionalidad requerida para procesar la solicitud. En el contexto de una actualización FHIR, esto comúnmente significa que el método HTTP `PUT` no está implementado.\n\nThe server does not support the HTTP PUT method for the FHIR update operation."
+    },
+    {
+      "id": "Q14",
+      "prompt": "Refer to the image. An implementer needs to record the patient's death as May 10, 2022 @ 10:30:00 am based on the Patient resource definition.",
+      "options_format": "json",
+      "stem": {
+        "type": "tsv",
+                "content": [
+                  "Element\tName\tCardinality\tType\tDescription",
+                  "Patient\tDomainResource\tInformation about an individual receiving care.",
+                  "deceased[x]\t0..1\tChoice of: boolean or dateTime.",
+                  "↳ deceasedBoolean\tboolean\tIndicates if the patient is deceased.",
+                  "↳ deceasedDateTime\tdateTime\tThe specific time of death."
+                ]
+      },
+      "options": {
+        "A": { "deceasedBoolean": true },
+        "B": { "deceasedDateTime": "2022-05-10T10:30:00Z" },
+        "C": { "deceased": { "dateTime": "2022-05-10T10:30:00Z" } },
+        "D": { "deceased": { "dateTime": "2022-05-10T10:30:00Z", "boolean": true } }
+      },
+      "answer": "B",
+      "explanation": "El elemento `deceased[x]` es de tipo 'Choice', lo que significa que se debe elegir una de las opciones: `deceasedBoolean` o `deceasedDateTime`. Para registrar la fecha y hora de la muerte, se debe usar `deceasedDateTime` con una cadena en formato ISO 8601.\n\nThe correct way to represent the deceased date and time is as a string in ISO 8601 format."
+    },
+    {
+      "id": "Q15",
+      "prompt": "An application needs to report a valid code in the Condition.code element for a Primary Cancer Condition. The ValueSet is specified as: http://hl7.org/fhir/us/mcode/ValueSet/mcode-primary-cancer-disorder-vs and includes codes from both SNOMED CT and ICD-10-CM.",
+      "options_format": "text",
+      "stem": {
+        "type": "text",
+                "content": "Which value is valid for the coding element?"
+      },
+      "options": {
+        "A": "http://snomedct.info",
+        "B": "http://hl7.org/fhir/sid/icd-10",
+        "C": "http://hl7.org/fhir/sid/icd-10-cm",
+        "D": "http://hl7.org/fhir/us/mcode/ValueSet/mcode-primary-cancer-disorder-vs"
+      },
+      "answer": "C",
+      "explanation": "El valor correcto para el sistema de codificación es la URL canónica para ICD-10-CM. La pregunta especifica que el `ValueSet` incluye códigos de SNOMED CT y ICD-10-CM, por lo que `http://hl7.org/fhir/sid/icd-10-cm` es el identificador correcto para este último.\n\nThe correct value for the coding element is the URL of the ICD-10-CM ValueSet, because the question specifies that the ValueSet includes codes from ICD-10-CM, not icd-10"
+    },
+    {
+      "id": "Q16",
+      "prompt": "A server performs profile validation on submitted resource instances. A client sends an update request for an Observation instance and receives the following response from the server:",
+      "options_format": "text",
+      "stem": {
+        "type": "text",
+                "content": "Response Code - 400 (Bad Request)\nResponse Body - OperationOutcome instance with an error severity issue message - \"Code 'submitted' is not a valid code in code system http://hl7.org/fhir/observation-status\""
+      },
+      "options": {
+        "A": "The Observation instance status code value 'submitted' is not an allowed value and the server has stored the submitted instance with a translated code value.",
+        "B": " The Observation instance status code value 'submitted' is not an allowed value and the client must update and resubmit the instance.",
+        "C": "The Observation instance status code system is not correct and the client must update and resubmit the instance.",
+        "D": "The Observation instance status code value code system is not correct and the server has updated the submitted instance with an equivalent code value and code system."
+      },
+      "answer": "B",
+      "explanation": "Dado que el código de estado 'submitted' no es un valor válido en el sistema de códigos especificado (`http://hl7.org/fhir/observation-status`), el servidor rechaza la instancia con un error `400 (Bad Request)`. El cliente debe corregir el valor y reenviar la instancia.\n\nBecause the status code 'submitted' is not a valid value in the specified code system, the client must update and resubmit the instance."
+    },
+    {
+      "id": "Q17",
+      "prompt": "A prescription needs to be administered only when the patient has a fever (coded using SNOMED CT). What is the correct JSON for the asNeeded[x] element?",
+      "options_format": "json",
+      "stem": {
+        "type": "tsv",
+                "content": [
+                  "Name\tFlags\tCard.\tType\tDescription & Constraints",
+                  "Dosage\tΣ TU\tBackboneElement\tHow the medication is/was taken or should be taken",
+                  "└ sequence\tΣ\t0..1\tinteger\tThe order of the dosage instructions",
+                  "└ text\tΣ\t0..1\tstring\tFree text dosage instructions e.g. SIG",
+                  "└ additionalInstruction\tΣ\t0..*\tCodeableConcept\tSupplemental instruction or warnings...",
+                  "└ patientInstruction\tΣ\t0..1\tstring\tPatient or consumer oriented instructions",
+                  "└ timing\tΣ\t0..1\tTiming\tWhen medication should be administered",
+                  "└ asNeeded[x]\tΣ\t0..1\tTake \"as needed\" (for x)",
+                  "└ asNeededBoolean\tboolean\t",
+                  "└ asNeededCodeableConcept\tCodeableConcept\tSNOMED CT Medication As Needed Reason Codes (Example)",
+                  "└ site\tΣ\t0..1\tCodeableConcept\tBody site to administer to",
+                  "└ route\tΣ\t0..1\tCodeableConcept\tHow drug should enter body"
+                ]
+      },
+      "options": {
+        "A": { "asNeeded": { "asNeededBoolean": true, "asNeededCodeableConcept": { "coding": [ { "system": "http://snomed.info/sct", "code": "386661006", "display": "Fever" } ] } } },
+        "B": { "asNeededBoolean": true, "asNeededCodeableConcept": { "coding": [ { "system": "http://snomed.info/sct", "code": "386661006", "display": "Fever" } ] } },
+        "C": { "asNeededBoolean": true, "asNeededCoding": { "coding": [ { "system": "http://snomed.info/sct", "code": "386661006", "display": "Fever" } ] } },
+        "D": { "asNeededCodeableConcept": { "coding": [ { "system": "http://snomed.info/sct", "code": "386661006", "display": "Fever" } ] } }
+      },
+      "answer": "D",
+      "explanation": "El elemento `asNeeded[x]` es de tipo 'Choice', lo que significa que solo uno de los elementos posibles (`asNeededBoolean` o `asNeededCodeableConcept`) puede estar presente. Como la condición es 'cuando el paciente tiene fiebre', se debe usar `asNeededCodeableConcept` para especificar la condición. La opción D muestra correctamente esta estructura. Las opciones A, B y C son incorrectas porque usan ambas partes de la elección, usan una estructura incorrecta (`asNeeded`) o usan un nombre de elemento no válido (`asNeededCoding`).\n\nThe `asNeeded[x]` element is a choice type, meaning only one of the possible elements (`asNeededBoolean` or `asNeededCodeableConcept`) can be present. Since the condition is 'when the patient has a fever', `asNeededCodeableConcept` must be used to specify the condition. Option D correctly shows this structure. Options A, B, and C are incorrect because they either use both parts of the choice, use an incorrect structure (`asNeeded`), or use an invalid element name (`asNeededCoding`)."
+    },
+    {
+      "id": "Q18",
+      "prompt": "A user wants to retrieve the Patient resource for patient id 42.",
+      "options_format": "text",
+      "stem": {
+        "type": "text",
+                "content": "Which URL would fetch this patient from the FHIR server test.fhir.org?"
+      },
+      "options": {
+          "A": "https://test.fhir.org/Patient/42",
+          "B": "https://test.fhir.org/Patient?id=42",
+          "C": "https://test.fhir.org/Patient?42",
+          "D": "https://test.fhir.org/Patient=42"
+      },
+      "answer": "A",
+      "explanation": "El formato de URL correcto para obtener un recurso específico en FHIR es `https://servidor/Recurso/id`. Esto se conoce como la interacción 'read'.\n\nThe correct URL format for fetching a specific resource in FHIR is `https://server/resource/id`."
+    },
+    {
+      "id": "Q19",
+      "prompt": "A developer needs to update a whole record for a patient. If the resource does not exist, it needs to be created.",
+      "options_format": "text",
+      "stem": {
+        "type": "text",
+                "content": "Which HTTP method should the developer use?"
+      },
+      "options": {
+          "A": "PATCH",
+          "B": "POST",
+          "C": "PUT",
+          "D": "DELETE"
+      },
+      "answer": "C",
+      "explanation": "El método `PUT` se utiliza para actualizar un registro completo de un paciente (o crearlo si no existe). A diferencia de `PATCH` que realiza actualizaciones parciales, `PUT` reemplaza todo el recurso.\n\nThe PUT method is used to update a whole record for a patient. If the resource does not exist, it will be created."
+    },
+    {
+      "id": "Q20",
+      "prompt": "A clinical application requests to retrieve a patient's record, including their conditions, medications, and allergies.",
+      "options_format": "text",
+      "stem": {
+        "type": "text",
+                "content": "Which FHIR bundle type should be used to respond with this information?"
+      },
+      "options": {
+          "A": "transaction",
+          "B": "Searchset",
+          "C": "History",
+          "D": "collection"
+      },
+      "answer": "B",
+      "explanation": "Un `Bundle` de tipo `searchset` se utiliza para responder con un conjunto de recursos que coinciden con un criterio de búsqueda. Es el tipo de bundle estándar para los resultados de las consultas de búsqueda en FHIR.\n\nA Searchset bundle is used to respond with a set of resources that match a search criteria."
+    },
+    {
+      "id": "Q26",
+      "prompt": "What is the Patient resource logical id in the following JSON?",
+      "stem": {
+        "type": "json",
+        "content": {
+          "resourceType": "Patient",
+          "id": "pat-123",
+          "active": true,
+          "name": [
+            { "use": "official", "family": "Rodriguez", "given": ["Dherly"] }
+          ]
+        }
+      },
+      "options": {
+        "A": "Patient",
+        "B": "pat-123",
+        "C": "official",
+        "D": "Rodriguez"
+      },
+      "answer": "B",
+      "explanation": "El 'id lógico' de un recurso FHIR es el valor del elemento `id` en la raíz del objeto JSON. Este ID es único para ese tipo de recurso dentro del servidor FHIR.\n\nThe logical id is the root 'id' element."
+    }
+  ]
+}
