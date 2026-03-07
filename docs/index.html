@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>FHIR Quiz — Static</title>
+
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Prism (JSON highlight) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-json.min.js"></script>
+</head>
+
+<body class="bg-slate-950 text-slate-100 h-screen flex overflow-hidden">
+
+  <!-- Sidebar (Izquierda) -->
+  <aside id="sidebar" class="bg-slate-900/70 flex flex-col shrink-0" style="width: 420px;">
+    <div class="p-6 border-b border-slate-800">
+        <div class="flex items-center gap-3">
+          <div class="h-9 w-9 rounded-xl bg-indigo-500/20 border border-indigo-400/30 grid place-items-center">
+            <span class="font-bold text-indigo-300">FHIR</span>
+          </div>
+          <div>
+            <div class="text-lg font-semibold tracking-tight">FHIR Quiz</div>
+            <div class="text-xs text-slate-400">Implementer R4 • progreso local</div>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-3 mt-4">
+          <label class="flex items-center gap-2 text-sm text-slate-300">
+            <input id="toggleExplain" type="checkbox" class="accent-indigo-500" checked />
+            Mostrar explicación
+          </label>
+
+          <button id="btnReset"
+            class="text-sm px-3 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700">
+            Reset
+          </button>
+        </div>
+    </div>
+
+    <div class="p-6 flex-1 overflow-y-auto">
+      <!-- Progreso -->
+      <section class="rounded-2xl bg-slate-900/60 border border-slate-800 p-5">
+        <div class="flex flex-wrap items-center justify-between gap-4">
+          <div>
+            <div class="text-sm text-slate-400">Progreso</div>
+            <div class="text-lg font-semibold">
+              <span id="progressText">0/0 respondidas</span>
+              <span class="text-slate-400 font-normal">•</span>
+              <span id="scoreText">0 correctas (0.0%)</span>
+            </div>
+          </div>
+
+          <div class="w-full sm:w-auto flex-1 min-w-[150px]">
+            <div class="h-2.5 rounded-full bg-slate-800 overflow-hidden">
+              <div id="progressBar" class="h-full bg-indigo-500" style="width:0%"></div>
+            </div>
+            <div id="progressPct" class="mt-1 text-xs text-slate-400 text-right">0.0%</div>
+          </div>
+        </div>
+
+        <div id="feedbackBox" class="mt-4 hidden rounded-xl p-4 border"></div>
+      </section>
+    </div>
+
+    <!-- Pie de página de la barra lateral -->
+    <div class="p-6 border-t border-slate-800 text-center shrink-0">
+      <img src="./logoDCR.png" alt="Logo DCR" class="mx-auto h-10 w-auto mb-2">
+      <p class="text-xs text-slate-400">Powered by Dherly Cervantes</p>
+      <p class="text-xs text-slate-500 mt-1">(c) 2026</p>
+    </div>
+  </aside>
+
+  <div id="resizer" class="w-1.5 cursor-col-resize bg-slate-800 hover:bg-indigo-500 transition-colors"></div>
+
+  <!-- Contenido Principal (Derecha) -->
+  <main class="flex-1 overflow-y-auto p-8">
+    <div class="max-w-4xl mx-auto">
+    <!-- Pregunta -->
+    <section id="quizSection">
+      <div class="flex items-start justify-between gap-4">
+        <div>
+          <div class="flex items-center gap-3">
+            <div class="text-xs text-slate-400" id="qCounter">Pregunta 0 / 0</div>
+            <div class="relative">
+              <select id="jumpToQuestion" title="Saltar a pregunta"
+                class="bg-slate-800 border border-slate-700 text-xs rounded-md py-1 pl-2 pr-7 appearance-none cursor-pointer hover:border-slate-600">
+              </select>
+              <svg class="w-3 h-3 absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+            </div>
+          </div>
+          <h1 class="mt-2 text-xl font-semibold leading-snug" id="qPrompt">Cargando…</h1>
+        </div>
+      </div>
+
+      <div id="contextWrap" class="mt-5 hidden">
+        <div class="text-xs uppercase tracking-wider text-slate-400 mb-2">Contexto</div>
+        <pre id="contextPre" class="rounded-xl border border-slate-800 bg-slate-950 p-4 overflow-auto text-sm whitespace-pre-wrap"></pre>
+      </div>
+
+      <form id="answerForm" class="mt-6">
+        <div id="optionsWrap" class="grid gap-3"></div>
+
+        <div class="mt-6 flex items-center justify-between gap-3">
+          <div class="text-xs text-slate-500">
+            Tip: selecciona una opción y confirma; el feedback aparece arriba.
+          </div>
+
+          <div class="flex items-center gap-2">
+            <button id="btnConfirm" type="submit"
+              class="px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-semibold disabled:opacity-40 disabled:cursor-not-allowed">
+              Confirmar
+            </button>
+            <button id="btnNext" type="button"
+              class="px-5 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 font-semibold hidden">
+              Siguiente
+            </button>
+          </div>
+        </div>
+      </form>
+    </section>
+
+    <!-- Final -->
+    <section id="finishedWrap" class="hidden rounded-2xl bg-slate-900 border border-slate-800 p-8">
+      <div class="text-2xl font-semibold">🎉 ¡Completado!</div>
+      <div class="mt-2 text-slate-300" id="finalText"></div>
+      <div class="mt-6">
+        <button id="btnRestart"
+          class="px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 font-semibold">
+          Reiniciar práctica
+        </button>
+      </div>
+    </section>
+    </div>
+  </main>
+
+  <script src="./app.js"></script>
+</body>
+</html>
